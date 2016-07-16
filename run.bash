@@ -12,7 +12,7 @@ docker_err() {
 		exit=$?
 
 		echo '/nStoping containers'
-		docker stop mysql-dbms rails-web node-assets
+		docker stop mysql-dbms glassfish-web node-assets
 
 		exit $exit;
 }
