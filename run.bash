@@ -4,6 +4,7 @@ set -e
 PROJECT_NAME=${PROJECT_NAME:-'project'}
 
 JAVA_MINOR_VERSION=${JAVA_MINOR_VERSION:-8}
+JAVA_VERSION=${JAVA_VERSION:-"1.${JAVA_MINOR_VERSION}"}
 GLASSHFISH_MAJOR_VERSION=${GLASSHFISH_MAJOR_VERSION:-4}
 GLASSHFISH_VERSION=${GLASSHFISH_VERSION:-"${GLASSHFISH_MAJOR_VERSION}.1"}
 NODE_VERSION=${NODE_VERSION:-'6.2.2'}
@@ -29,8 +30,13 @@ docker run \
 
 docker run \
 			 --detach=true \
+			 --name='java-dev' \
+			 "${PROJECT_NAME}/java-${JAVA_VERSION}:latest"
+
+docker run \
+			 --detach=true \
 			 --name='glassfish-web' \
-			 "${PROJECT_NAME}/glassfish-${JAVA_MINOR_VERSION}-${GLASSHFISH_VERSION}:latest"
+			 "${PROJECT_NAME}/glassfish-${JAVA_VERSION}-${GLASSHFISH_VERSION}:latest"
 
 docker run \
 			 --detach=true \
