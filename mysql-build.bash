@@ -64,6 +64,7 @@ cat <<EOF > $TEMP_DIR/mysql_startup.sh
 #!/usr/bin/env bash
 set -eo pipefail
 
+if [[ ! -f '/run/mysqld/mysql.initialized' ]]; then
 echo "Temporarily starting MySQL daemon"
 mysqld_safe &
 # mysqld_safe --skip-grant-tables --skip-syslog --skip-networking &
@@ -91,12 +92,13 @@ mysql \
 echo "Stopping MySQL daemon"
 mysqladmin shutdown
 
-if [ ! -d "/run/mysqld" ]; then
-    mkdir -p /run/mysqld
+touch /run/mysqld/mysql.initialized
 fi
 
 echo "Starting MySQL daemon"
 mysqld --user=mysql
+
+echo "MySQL daemon Shutton Down, bye"
 EOF
 
 docker build \
