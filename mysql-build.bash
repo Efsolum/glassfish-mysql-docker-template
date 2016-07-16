@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
+PROJECT_NAME=${PROJECT_NAME:-'project'}
+
+ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
+
 MYSQL_MAJOR_VERSION=5.7
 # MYSQL_BUILD_VERSION=13
 # MYSQL_VERSION=${MYSQL_MAJOR_VERSION}.${MYSQL_BUILD_VERSION}
-ALPINE_VERSION='3.4'
 
 TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
 
@@ -96,5 +99,7 @@ echo "Starting MySQL daemon"
 mysqld --user=mysql
 EOF
 
-docker build --tag='project/mysql-dbms:latest' $TEMP_DIR
-docker tag 'project/mysql-dbms:latest' "project/mysql-dbms:$(date +%s)"
+docker build \
+			 --tag="${PROJECT_NAME}/mysql-dbms:latest" $TEMP_DIR
+docker tag \
+			 "${PROJECT_NAME}/mysql-dbms:latest" "project/mysql-dbms:$(date +%s)"

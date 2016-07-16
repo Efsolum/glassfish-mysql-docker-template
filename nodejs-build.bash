@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-NODE_VERSION='6.2.2'
-ALPINE_VERSION='3.4'
+NODE_VERSION=${NODE_VERSION:-'6.2.2'}
+ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
 
-CONTAINER_USER=developer
+CONTAINER_USER=${CONTAINER_USER:-developer}
 TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
 
 docker_end() {
