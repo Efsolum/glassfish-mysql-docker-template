@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-NODE_VERSION=${NODE_VERSION:-'6.2.2'}
+NODE_VERSION=${NODE_VERSION:-'6.2.0'}
 ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
@@ -28,17 +28,34 @@ ENV PATH \$NPM_CONFIG_PREFIX/bin:\$PATH
 
 RUN adduser -u $(id -u $USER) -Ds /bin/bash $CONTAINER_USER
 
-RUN apk update
+RUN apk update && true
 RUN apk add \
 					bash \
 					curl \
-					nodejs>=${NODE_VERSION} \
+					freetype-dev \
+					g++ \
+					gcc \
+					git \
+					glib \
+					glib-dev \
+					gnupg \
+					libgcc \
+					libstdc++ \
+					libtool \
+					linux-headers \
+					make \
 					nodejs-dev>=${NODE_VERSION} \
+					nodejs>=${NODE_VERSION} \
+					openssl-dev \
 					openssl \
+					pango-dev \
+					poppler-dev \
+					python-dev \
 					sudo \
 					tar \
-				&& echo 'End of package list' \
-				rm -rf '/var/cache/apk/*'
+					zlib-dev \
+		&& echo 'End of package(s) installation.' \
+		&& rm -rf '/var/cache/apk/*'
 
 RUN mkdir \$NPM_CONFIG_PREFIX
 RUN bash -c 'npm install -g \
@@ -67,7 +84,7 @@ export NPM_CONFIG_PREFIX=/var/npm
 export PATH=\$NPM_CONFIG_PREFIX/bin:\$PATH
 EOF
 
-docker build -t "project/node-${NODE_VERSION}:latest" $TEMP_DIR
+docker build --tag "project/node-${NODE_VERSION}:latest" $TEMP_DIR
 docker tag \
 			 "project/node-${NODE_VERSION}:latest" \
 			 "project/node-${NODE_VERSION}:$(date +%s)"
