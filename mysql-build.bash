@@ -4,10 +4,10 @@ set -e
 PROJECT_NAME=${PROJECT_NAME:-'project'}
 
 ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
+MYSQL_MAJOR_VERSION=${MYSQL_MAJOR_VERSION:-'5.7'}
 
-MYSQL_MAJOR_VERSION=5.7
-# MYSQL_BUILD_VERSION=13
-# MYSQL_VERSION=${MYSQL_MAJOR_VERSION}.${MYSQL_BUILD_VERSION}
+DATABASE_USER=${DATABASE_USER:-'app'}
+DATABASE_PASS=${DATABASE_PASS:-'password'}
 
 TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
 
@@ -78,7 +78,7 @@ echo "Executing MySQL DBMS configuration changes."
 # 			--execute "ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';"
 mysql \
 			--verbose \
-			--execute "CREATE USER 'app'@'localhost' IDENTIFIED BY 'password';"
+			--execute "CREATE USER '\${DATABASE_USER}'@'localhost' IDENTIFIED BY '\${DATABASE_PASS}';"
 mysql \
 			--verbose \
 			--execute "GRANT ALL ON *.* TO 'app'@'%' IDENTIFIED BY 'password';"
