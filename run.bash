@@ -26,14 +26,15 @@ trap docker_err ERR
 docker run \
 			 --detach=true \
 			 --name='mysql-dbms' \
-			 --env="user=${DATABASE_USER}" \
-			 --env="password=${DATABASE_PASS}" \
+			 --env="DATABASE_USER=${DATABASE_USER}" \
+			 --env="DATABASE_PASS=${DATABASE_PASS}" \
 			 "${PROJECT_NAME}/mysql-dbms:latest"
 
 docker run \
 			 --detach=true \
 			 --name='java-dev' \
 			 --volume="$(dirname $(pwd))/src:/var/www/projects" \
+			 --publish='7070:8080' \
 			 "${PROJECT_NAME}/java-${JAVA_VERSION}:latest"
 
 docker run \
