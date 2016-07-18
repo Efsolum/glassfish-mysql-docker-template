@@ -46,5 +46,8 @@ docker run \
 docker run \
 			 --detach=true \
 			 --name='glassfish-web' \
+			 --publish='8080:8080' \
+			 --publish='8181:8181' \
+			 --publish='9009:9009' \
+			 --publish='4848:4848' \
 			 "${PROJECT_NAME}/glassfish-${JAVA_VERSION}-${GLASSHFISH_VERSION}:latest"
-
