@@ -16,7 +16,7 @@ docker_err() {
 		exit=$?
 
 		echo '/nStoping containers'
-		docker stop mysql-dbms glassfish-web node-assets
+		docker stop mysql-dbms java-dev node-assets glassfish-web
 
 		exit $exit;
 }
