@@ -86,7 +86,9 @@ export NPM_CONFIG_PREFIX=/var/npm
 export PATH=\$NPM_CONFIG_PREFIX/bin:\$PATH
 EOF
 
-docker build --tag "project/node-${NODE_VERSION}:latest" $TEMP_DIR
+docker build \
+			 --no-cache=false \
+			 --tag "project/node-${NODE_VERSION}:latest" $TEMP_DIR
 docker tag \
 			 "project/node-${NODE_VERSION}:latest" \
 			 "project/node-${NODE_VERSION}:$(date +%s)"

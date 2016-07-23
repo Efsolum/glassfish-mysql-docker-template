@@ -105,6 +105,7 @@ chmod +x \${GLASSFISH_HOME}/bin/*
 EOF
 
 docker build \
+			 --no-cache=false \
 			 --tag "${PROJECT_NAME}/glassfish-${JAVA_VERSION}-${GLASSHFISH_VERSION}:latest" \
 			 $TEMP_DIR
 docker tag \

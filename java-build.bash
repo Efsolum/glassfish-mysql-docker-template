@@ -91,6 +91,7 @@ mvn --version
 EOF
 
 docker build \
+			 --no-cache=false \
 			 --tag "${PROJECT_NAME}/java-${JAVA_VERSION}:latest" \
 			 $TEMP_DIR
 docker tag \

@@ -104,6 +104,7 @@ echo "MySQL daemon Shutton Down, bye"
 EOF
 
 docker build \
+			 --no-cache=false \
 			 --tag="${PROJECT_NAME}/mysql-dbms:latest" $TEMP_DIR
 docker tag \
 			 "${PROJECT_NAME}/mysql-dbms:latest" "project/mysql-dbms:$(date +%s)"
