@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+[ -f './project.bash' ] && source './project.bash'
+
 NODE_VERSION=${NODE_VERSION:-'6.2.0'}
 ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
 

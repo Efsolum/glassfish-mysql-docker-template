@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+[ -f './project.bash' ] && source './project.bash'
+
 PROJECT_NAME=${PROJECT_NAME:-'project'}
 
 JAVA_MINOR_VERSION=${JAVA_MINOR_VERSION:-8}
