@@ -12,6 +12,7 @@ JAVA_VERSION=${JAVA_VERSION:-"1.${JAVA_MINOR_VERSION}"}
 
 GLASSHFISH_MAJOR_VERSION=${GLASSHFISH_MAJOR_VERSION:-'4'}
 GLASSHFISH_VERSION=${GLASSHFISH_VERSION:-"${GLASSHFISH_MAJOR_VERSION}.1"}
+GLASSFISH_SHA256=${GLASSFISH_SHA256:-"3edc5fc72b8be241a53eae83c22f274479d70e15bdfba7ba2302da5260f23e9d"}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
 TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
@@ -95,8 +96,9 @@ mkdir -v /tmp/glassfish-build
 cd /tmp/glassfish-build
 
 wget "http://download.java.net/glassfish/${GLASSHFISH_VERSION}/release/glassfish-${GLASSHFISH_VERSION}.zip"
-unzip glassfish-4.1.zip
+sha256sum "glassfish-${GLASSHFISH_VERSION}.zip" | grep "${GLASSFISH_SHA256}"
 
+unzip glassfish-4.1.zip
 mv glassfish${GLASSHFISH_MAJOR_VERSION} \${GLASSFISH_HOME}
 cd /
 rm -vr /tmp/glassfish-build
