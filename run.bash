@@ -45,6 +45,7 @@ docker run \
 			 --volume="$(dirname $(pwd))/src:/var/www/projects" \
 			 "${PROJECT_NAME}/node-${NODE_VERSION}:latest"
 
+# 4848 (administration), 8080 (HTTP listener), 8181 (HTTPS listener), 9009 (JPDA debug port)
 docker run \
 			 --detach=true \
 			 --name='glassfish-web' \
