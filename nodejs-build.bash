@@ -7,7 +7,7 @@ NODE_VERSION=${NODE_VERSION:-'6.2.0'}
 ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
-TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
+TEMP_DIR=$(mktemp --directory glassfish-build-XXXXXXXX)
 
 docker_end() {
 		exit=$?

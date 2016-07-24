@@ -14,7 +14,7 @@ MAVEN_MAJOR_VERSION=${MAVEN_MAJOR_VERSION:-'3'}
 MAVEN_VERSION=${MAVEN_VERSION:-"${MAVEN_MAJOR_VERSION}.3.9"}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
-TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
+TEMP_DIR=$(mktemp --directory glassfish-build-XXXXXXXX)
 
 docker_end() {
 		exit=$?

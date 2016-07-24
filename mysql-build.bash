@@ -11,7 +11,7 @@ MYSQL_MAJOR_VERSION=${MYSQL_MAJOR_VERSION:-'5.7'}
 DATABASE_USER=${DATABASE_USER:-'app'}
 DATABASE_PASS=${DATABASE_PASS:-'password'}
 
-TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
+TEMP_DIR=$(mktemp --directory glassfish-build-XXXXXXXX)
 
 docker_end() {
 		exit=$?

@@ -15,7 +15,7 @@ GLASSHFISH_VERSION=${GLASSHFISH_VERSION:-"${GLASSHFISH_MAJOR_VERSION}.1"}
 GLASSFISH_SHA256=${GLASSFISH_SHA256:-"3edc5fc72b8be241a53eae83c22f274479d70e15bdfba7ba2302da5260f23e9d"}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
-TEMP_DIR=$(mktemp --directory rails-build-XXXXXXXX)
+TEMP_DIR=$(mktemp --directory glassfish-build-XXXXXXXX)
 
 docker_end() {
 		exit=$?
