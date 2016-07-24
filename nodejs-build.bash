@@ -3,8 +3,10 @@ set -e
 
 [ -f './project.bash' ] && source './project.bash'
 
-NODE_VERSION=${NODE_VERSION:-'6.2.0'}
+PROJECT_NAME=${PROJECT_NAME:-'project'}
+
 ALPINE_VERSION=${ALPINE_VERSION:-'3.4'}
+NODE_VERSION=${NODE_VERSION:-'6.2.0'}
 
 CONTAINER_USER=${CONTAINER_USER:-developer}
 TEMP_DIR=$(mktemp --directory glassfish-build-XXXXXXXX)
@@ -99,7 +101,7 @@ EOF
 
 docker build \
 			 --no-cache=false \
-			 --tag "project/node-${NODE_VERSION}:latest" $TEMP_DIR
+			 --tag "${PROJECT_NAME}/node-${NODE_VERSION}:latest" $TEMP_DIR
 docker tag \
-			 "project/node-${NODE_VERSION}:latest" \
-			 "project/node-${NODE_VERSION}:$(date +%s)"
+			 "${PROJECT_NAME}/node-${NODE_VERSION}:latest" \
+			 "${PROJECT_NAME}/node-${NODE_VERSION}:$(date +%s)"
