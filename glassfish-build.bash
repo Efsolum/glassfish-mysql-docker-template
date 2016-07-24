@@ -40,19 +40,9 @@ ENV PATH "\${GLASSFISH_HOME}/bin:\${JAVA_HOME}/bin:\$PATH"
 
 RUN adduser -u $(id -u $USER) -Ds /bin/bash $CONTAINER_USER
 
-RUN apk update
-RUN apk add \
-				bash \
-				expect \
-				ca-certificates \
-				git \
-				openjdk${JAVA_MINOR_VERSION} \
-				openjdk${JAVA_MINOR_VERSION}-jre \
-				openssl \
-				sudo \
-				wget \
-		&& echo 'End of package(s) installation.' \
-		&& rm -rf '/var/cache/apk/*'
+COPY apk-install.sh /usr/local/bin/apk-install.sh
+RUN chmod u+x /usr/local/bin/apk-install.sh
+RUN apk-install.sh
 
 RUN which java && java -version
 RUN which javac && javac -version
@@ -86,6 +76,30 @@ expect "password"
 send "$password\n"
 expect eof
 exit
+EOF
+
+cat <<EOF >> ${TEMP_DIR}/apk-install.sh
+#!/usr/bin/env sh
+set -eo pipefail
+
+apk update
+apk add \
+			bash \
+			ca-certificates \
+			expect \
+			git \
+			openjdk${JAVA_MINOR_VERSION} \
+			openjdk${JAVA_MINOR_VERSION}-jre \
+			openssl \
+			sudo \
+			wget \
+		&& echo 'End of package(s) installation.'
+
+echo 'Cleaning up apks'
+rm -rf '/var/cache/apk/*'
+
+echo "Deleting apk-install.sh"
+rm "/usr/local/bin/apk-install.sh"
 EOF
 
 cat <<EOF >> $TEMP_DIR/glassfish-build.bash
