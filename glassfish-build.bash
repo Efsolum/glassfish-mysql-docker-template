@@ -97,9 +97,6 @@ apk add \
 
 echo 'Cleaning up apks'
 rm -rf '/var/cache/apk/*'
-
-echo "Deleting apk-install.sh"
-rm "/usr/local/bin/apk-install.sh"
 EOF
 
 cat <<EOF >> $TEMP_DIR/glassfish-build.bash

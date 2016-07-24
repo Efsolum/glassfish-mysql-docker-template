@@ -30,15 +30,9 @@ MAINTAINER 'Matthew Jordan <matthewjordandevops@yandex.com>'
 
 ENV LANG en_US.UTF-8
 
-RUN apk update
-RUN apk add \
-				bash \
-				ca-certificates \
-				git \
-				mysql \
-				mysql-client \
-			&& echo 'End of package list' \
-			&& rm -rf '/var/cache/apk/*'
+COPY apk-install.sh /usr/local/bin/apk-install.sh
+RUN chmod u+x /usr/local/bin/apk-install.sh
+RUN apk-install.sh
 
 COPY my.cnf /etc/mysql/my.cnf
 
@@ -53,6 +47,24 @@ EXPOSE 3306
 
 CMD ["mysql_startup.sh"]
 EOF
+
+cat <<EOF >> ${TEMP_DIR}/apk-install.sh
+#!/usr/bin/env sh
+set -eo pipefail
+
+apk update
+apk add \
+			bash \
+			ca-certificates \
+			git \
+			mysql \
+			mysql-client \
+		&& echo 'End of package list'
+
+echo 'Cleaning up apks'
+rm -rf '/var/cache/apk/*'
+EOF
+
 
 cat <<EOF > $TEMP_DIR/my.cnf
 [mysqld]

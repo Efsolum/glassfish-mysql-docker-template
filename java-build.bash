@@ -39,19 +39,9 @@ ENV PATH "\${MAVEN_HOME}/bin:\${JAVA_HOME}/bin:\$PATH"
 
 RUN adduser -u $(id -u $USER) -Ds /bin/bash $CONTAINER_USER
 
-RUN apk update
-RUN apk add \
-				bash \
-				expect \
-				ca-certificates \
-				git \
-				openjdk${JAVA_MINOR_VERSION} \
-				openjdk${JAVA_MINOR_VERSION}-jre \
-				openssl \
-				sudo \
-				wget \
-		&& echo 'End of package(s) installation.' \
-		&& rm -rf '/var/cache/apk/*'
+COPY apk-install.sh /usr/local/bin/apk-install.sh
+RUN chmod u+x /usr/local/bin/apk-install.sh
+RUN apk-install.sh
 
 RUN which java && java -version
 RUN which javac && javac -version
@@ -69,6 +59,27 @@ VOLUME ["/var/www/projects"]
 
 EXPOSE 8080
 CMD sh -c 'kill -STOP \$$'
+EOF
+
+cat <<EOF >> ${TEMP_DIR}/apk-install.sh
+#!/usr/bin/env sh
+set -eo pipefail
+
+apk update
+apk add \
+			bash \
+			expect \
+			ca-certificates \
+			git \
+			openjdk${JAVA_MINOR_VERSION} \
+			openjdk${JAVA_MINOR_VERSION}-jre \
+			openssl \
+			sudo \
+			wget \
+		&& echo 'End of package(s) installation.'
+
+echo 'Cleaning up apks'
+rm -rf '/var/cache/apk/*'
 EOF
 
 cat <<EOF >> $TEMP_DIR/maven-build.bash

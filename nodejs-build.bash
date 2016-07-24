@@ -30,34 +30,9 @@ ENV PATH \$NPM_CONFIG_PREFIX/bin:\$PATH
 
 RUN adduser -u $(id -u $USER) -Ds /bin/bash $CONTAINER_USER
 
-RUN apk update && true
-RUN apk add \
-					bash \
-					curl \
-					freetype-dev \
-					g++ \
-					gcc \
-					git \
-					glib \
-					glib-dev \
-					gnupg \
-					libgcc \
-					libstdc++ \
-					libtool \
-					linux-headers \
-					make \
-					nodejs-dev>=${NODE_VERSION} \
-					nodejs>=${NODE_VERSION} \
-					openssl-dev \
-					openssl \
-					pango-dev \
-					poppler-dev \
-					python-dev \
-					sudo \
-					tar \
-					zlib-dev \
-		&& echo 'End of package(s) installation.' \
-		&& rm -rf '/var/cache/apk/*'
+COPY apk-install.sh /usr/local/bin/apk-install.sh
+RUN chmod u+x /usr/local/bin/apk-install.sh
+RUN apk-install.sh
 
 RUN mkdir \$NPM_CONFIG_PREFIX
 RUN bash -c 'npm install -g \
@@ -77,6 +52,42 @@ WORKDIR /var/www/projects
 
 VOLUME ["/var/www/projects"]
 CMD sh -c 'kill -STOP \$$'
+EOF
+
+cat <<EOF >> ${TEMP_DIR}/apk-install.sh
+#!/usr/bin/env sh
+set -eo pipefail
+
+apk update
+apk add \
+				bash \
+				curl \
+				freetype-dev \
+				g++ \
+				gcc \
+				git \
+				glib \
+				glib-dev \
+				gnupg \
+				libgcc \
+				libstdc++ \
+				libtool \
+				linux-headers \
+				make \
+				"nodejs-dev>=${NODE_VERSION}" \
+				"nodejs>=${NODE_VERSION}" \
+				openssl-dev \
+				openssl \
+				pango-dev \
+				poppler-dev \
+				python-dev \
+				sudo \
+				tar \
+				zlib-dev \
+		&& echo 'End of package(s) installation.'
+
+echo 'Cleaning up apks'
+rm -rf '/var/cache/apk/*'
 EOF
 
 cat <<EOF >> $TEMP_DIR/profile
