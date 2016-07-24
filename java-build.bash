@@ -45,11 +45,14 @@ RUN apk-install.sh
 
 RUN which java && java -version
 RUN which javac && javac -version
+RUN which jdb && jdb -version
 
 COPY maven-build.bash /usr/local/bin/maven-build.bash
 RUN chmod u+x /usr/local/bin/maven-build.bash
 RUN maven-build.bash
 RUN chown -R ${CONTAINER_USER}:${CONTAINER_USER} \${MAVEN_HOME}
+
+RUN which mvn && mvn -version
 
 USER $CONTAINER_USER
 WORKDIR /var/www/projects
