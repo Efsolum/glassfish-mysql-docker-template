@@ -56,6 +56,7 @@ COPY change-admin-password.sh /usr/local/bin/change-admin-password.sh
 RUN chmod ugo+x /usr/local/bin/change-admin-password.sh
 
 USER $CONTAINER_USER
+WORKDIR /home/$CONTAINER_USER
 
 # 4848 (administration), 8080 (HTTP listener), 8181 (HTTPS listener), 9009 (JPDA debug port)
 EXPOSE 4848 8080 8181 9009
@@ -91,6 +92,7 @@ apk add \
 			openjdk${JAVA_MINOR_VERSION} \
 			openjdk${JAVA_MINOR_VERSION}-jre \
 			openssl \
+			python \
 			sudo \
 			wget \
 		&& echo 'End of package(s) installation.'
